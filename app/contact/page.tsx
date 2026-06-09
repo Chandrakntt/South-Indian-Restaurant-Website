@@ -1,52 +1,109 @@
 'use client'
 
+import Link from 'next/link'
 import { useState } from 'react'
 
 export default function ContactPage() {
-  const [submitted, setSubmitted] = useState(false)
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    message: '',
+  })
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    setSubmitted(true)
-    setTimeout(() => setSubmitted(false), 3000)
+    alert(`Message sent from ${formData.name}!`)
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-yellow-50">
-      <div className="bg-primary text-white py-12">
-        <div className="max-w-6xl mx-auto px-4">
-          <h1 className="text-4xl font-bold">Contact Us</h1>
+    <div className="min-h-screen bg-gray-50">
+      {/* Navbar */}
+      <nav className="bg-white shadow-md">
+        <div className="max-w-6xl mx-auto px-4 py-4">
+          <Link href="/" className="text-2xl font-bold text-orange-600">🍛 South Indian Restaurant</Link>
         </div>
-      </div>
+      </nav>
 
-      <div className="max-w-6xl mx-auto px-4 py-12">
-        <div className="grid md:grid-cols-2 gap-12">
-          <div className="space-y-8">
-            <div>
-              <h3 className="font-bold text-lg">Phone</h3>
-              <p className="text-gray-600">+91-9999999999</p>
-            </div>
-            <div>
-              <h3 className="font-bold text-lg">Email</h3>
-              <p className="text-gray-600">info@restaurant.com</p>
-            </div>
-            <div>
-              <h3 className="font-bold text-lg">Location</h3>
-              <p className="text-gray-600">123 Restaurant Street, City</p>
-            </div>
+      {/* Contact Section */}
+      <section className="max-w-2xl mx-auto px-4 py-12">
+        <h1 className="text-4xl font-bold text-center mb-8">Contact Us</h1>
+
+        <div className="bg-white p-8 rounded-lg shadow-md mb-8">
+          <div className="mb-6">
+            <h3 className="text-xl font-bold mb-2">📍 Location</h3>
+            <p className="text-gray-600">123 Restaurant Street, Your City, State 12345</p>
           </div>
 
-          <form onSubmit={handleSubmit} className="bg-white p-8 rounded-lg shadow-lg space-y-4">
-            {submitted && (
-              <div className="p-4 bg-green-100 text-green-700 rounded-lg">Message sent!</div>
-            )}
-            <input type="text" placeholder="Your Name" className="w-full p-3 border border-gray-300 rounded-lg" required />
-            <input type="email" placeholder="Email" className="w-full p-3 border border-gray-300 rounded-lg" required />
-            <textarea placeholder="Message" rows={5} className="w-full p-3 border border-gray-300 rounded-lg" required />
-            <button type="submit" className="btn-primary w-full">Send Message</button>
-          </form>
+          <div className="mb-6">
+            <h3 className="text-xl font-bold mb-2">📞 Phone</h3>
+            <p className="text-gray-600">+1 (555) 123-4567</p>
+          </div>
+
+          <div className="mb-6">
+            <h3 className="text-xl font-bold mb-2">📧 Email</h3>
+            <p className="text-gray-600">info@southindianrestaurant.com</p>
+          </div>
+
+          <div>
+            <h3 className="text-xl font-bold mb-2">⏰ Hours</h3>
+            <p className="text-gray-600">Monday - Sunday: 11:00 AM - 11:00 PM</p>
+          </div>
         </div>
-      </div>
+
+        {/* Contact Form */}
+        <form onSubmit={handleSubmit} className="bg-white p-8 rounded-lg shadow-md">
+          <h2 className="text-2xl font-bold mb-6">Send Us a Message</h2>
+
+          <div className="mb-6">
+            <label className="block text-gray-700 font-semibold mb-2">Name</label>
+            <input
+              type="text"
+              required
+              value={formData.name}
+              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+              className="w-full border-2 border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:border-orange-600"
+              placeholder="Your name"
+            />
+          </div>
+
+          <div className="mb-6">
+            <label className="block text-gray-700 font-semibold mb-2">Email</label>
+            <input
+              type="email"
+              required
+              value={formData.email}
+              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+              className="w-full border-2 border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:border-orange-600"
+              placeholder="your@email.com"
+            />
+          </div>
+
+          <div className="mb-6">
+            <label className="block text-gray-700 font-semibold mb-2">Message</label>
+            <textarea
+              required
+              value={formData.message}
+              onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+              className="w-full border-2 border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:border-orange-600"
+              placeholder="Your message..."
+              rows={5}
+            />
+          </div>
+
+          <button
+            type="submit"
+            className="w-full bg-orange-600 text-white font-bold py-3 rounded-lg hover:bg-orange-700 transition"
+          >
+            Send Message
+          </button>
+        </form>
+
+        <div className="text-center mt-8">
+          <Link href="/" className="text-orange-600 hover:underline font-semibold">
+            ← Back to Home
+          </Link>
+        </div>
+      </section>
     </div>
   )
 }
