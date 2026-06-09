@@ -1,0 +1,116 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model MenuItem {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  description String
+  category  String   // Dosa, Idli, Sambar, Curries, etc.
+  price     Float
+  image     String?  // URL to image
+  isVegan   Boolean  @default(false)
+  isSpicy   Boolean  @default(false)
+  rating    Float    @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([category])
+  @@index([name])
+}
+
+model Reservation {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  phone     String
+  date      DateTime
+  time      String   // Format: HH:MM
+  guests    Int
+  notes     String?
+  status    String   @default("pending") // pending, confirmed, cancelled
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([email])
+  @@index([date])
+}
+
+model GalleryImage {
+  id        String   @id @default(cuid())
+  title     String
+  description String?
+  imageUrl  String
+  category  String   // food, ambiance, events, etc.
+  featured  Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([category])
+}
+
+model Testimonial {
+  id        String   @id @default(cuid())
+  name      String
+  email     String?
+  rating    Int      // 1-5
+  comment   String
+  verified  Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([rating])
+}
+
+model Order {
+  id        String   @id @default(cuid())
+  customerName String
+  email     String
+  phone     String
+  items     String   // JSON stringified
+  total     Float
+  status    String   @default("pending") // pending, confirmed, preparing, ready, completed
+  paymentStatus String @default("pending") // pending, completed, failed
+  deliveryAddress String?
+  notes     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([email])
+  @@index([status])
+}
+
+model Contact {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  phone     String?
+  subject   String
+  message   String
+  status    String   @default("new") // new, read, replied
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([email])
+}
+
+model Admin {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String   // hashed
+  name      String
+  role      String   @default("admin") // admin, manager
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([email])
+}
