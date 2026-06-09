@@ -15,7 +15,8 @@ const config: Config = {
         dark: '#2C1810',         // Dark brown
       },
       fontFamily: {
-        sans: ['var(--font-sans)'],
+        sans: ['Segoe UI', 'Segoe UI Emoji', 'Segoe UI Symbol', '-apple-system', 'BlinkMacSystemFont', 'Helvetica Neue', 'sans-serif'],
+        serif: ['Playfair Display', 'serif'],
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
